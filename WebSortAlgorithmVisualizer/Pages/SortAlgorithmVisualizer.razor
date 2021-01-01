@@ -1,0 +1,190 @@
+﻿@using WebAlgorithmVisualizer.Data
+@using System.Threading
+@using AlgorithmVisualzierLibrary.Models
+@inject IJSRuntime JsRuntime
+
+<div class="container">
+    <div class="p-3">
+        <h3>Sort Algorithm Visualizer</h3>
+    </div>
+    <div class="d-flex flex-wrap justify-content-around">
+        <div class="d-flex flex-column p-3">
+            <label>Select sorting algorithm</label>
+            <select disabled="@IsSorting" class="form-control" style="width: 180px"
+                    value="@selectedSortAlgorithm.Type" @onchange="SortAlgorithmChanged">
+                @foreach (var value in this.sortTypeDescriptions)
+                {
+                    <option value="@value.Type">@value.Label</option>
+                }
+            </select>
+        </div>
+        <div class="d-flex flex-column p-3">
+            <label>Select input size</label>
+            <select disabled="@IsSorting" class="form-control" style="width: 180px"
+                    value="@this.selectedCollectionSize.Label" @onchange="NumberOfEntriesChanged">
+                @foreach (var value in this.entrySizeDescriptions)
+                {
+                    <option value="@value.Label" title="@value.Description" data-toggle="tooltip">
+                        @value.Label
+                    </option>
+                }
+            </select>
+        </div>
+        <div class="d-flex flex-column p-3">
+            <label>Visualization delay</label>
+            <div class="d-flex align-items-center h-50 w-50">
+                <input class="form-control-range" style="width: 140px"
+                       id="formControlRange"
+                       type="range" min="1" max="500"
+                       step="1" @bind-value="@visualDelayMs"/>
+            </div>
+        </div>
+        <div class="d-flex flex-column p-3">
+            <label>Controls</label>
+            <div class="d-flex align-items-center">
+                <button disabled="@IsSorting" class="btn btn-outline-primary" style="width: 120px; margin-right: 5px" @onclick="GenerateValues"
+                        title="Generate new set of values" data-toggle="tooltip">
+                    Generate
+                </button>
+                <button disabled="@IsCompleted" hidden="@IsSorting" class="btn btn-primary" style="width: 120px" @onclick="StartSort"
+                        title="Start sort algorithm visualization" data-toggle="tooltip">
+                    Sort
+                </button>
+                <button hidden="@IsCancellable" class="btn btn-danger" style="width: 120px" @onclick="StopSort"
+                        title="Stop running sort algorithm visualization" data-toggle="tooltip">
+                    Stop
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="chart"></div>
+</div>
+
+@code {
+    private int[] values;
+    private CollectionSizeDescription selectedCollectionSize;
+    private SortAlgorithmDescription selectedSortAlgorithm;
+    private int visualDelayMs = 20;
+    private VisualizerState visualizerState = VisualizerState.Idle;
+    private CancellationTokenSource cts;
+    private SortAlgorithmService sortService;
+
+    private readonly List<CollectionSizeDescription> entrySizeDescriptions = new ()
+    {
+        new CollectionSizeDescription(20, "Small", "20 entries"),
+        new CollectionSizeDescription(50, "Medium", "50 entries"),
+        new CollectionSizeDescription(100, "Large", "100 entries"),
+        new CollectionSizeDescription(200, "X Large", "200 entries"),
+    };
+
+    private readonly List<SortAlgorithmDescription> sortTypeDescriptions = new ()
+    {
+        new SortAlgorithmDescription(SortAlgorithmType.Bubble, "Bubble Sort" ),
+        new SortAlgorithmDescription(SortAlgorithmType.Heap, "Heap Sort" ),
+        new SortAlgorithmDescription(SortAlgorithmType.Merge, "Merge Sort" ),
+        new SortAlgorithmDescription(SortAlgorithmType.Quick, "Quick Sort" ),
+    };
+
+    public bool IsSorting => this.visualizerState == VisualizerState.Sorting;
+
+    public bool IsCompleted => this.visualizerState == VisualizerState.Completed;
+
+    public bool IsCancellable => this.visualizerState != VisualizerState.Sorting;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            await base.OnInitializedAsync();
+
+            this.sortService = new SortAlgorithmService();
+            this.selectedSortAlgorithm = sortTypeDescriptions[2];
+            this.selectedCollectionSize = entrySizeDescriptions[1];
+
+            var res = await JsRuntime.InvokeAsync<object>("generateBarChart", values);
+            await GenerateValues();
+        }
+    }
+
+    protected async Task GenerateValues()
+    {
+        this.visualizerState = VisualizerState.Idle;
+
+        var randNum = new Random();
+        this.values = new int[this.selectedCollectionSize.Size];
+        for (int i = 0; i < values.Length; i++)
+        {
+            this.values[i] = randNum.Next(1, 5 * this.selectedCollectionSize.Size);
+        }
+
+        var res = await JsRuntime.InvokeAsync<object>("updateBarChartSeries", this.values);
+        this.StateHasChanged();
+    }
+
+    protected async Task StartSort(MouseEventArgs e)
+    {
+        this.visualizerState = VisualizerState.Sorting;
+
+        using (this.cts = new CancellationTokenSource())
+        {
+            await this.Sort(this.cts.Token);
+
+            this.visualizerState = this.cts.Token.IsCancellationRequested ? VisualizerState.Cancelled : VisualizerState.Completed;
+        }
+
+        this.cts = null;
+    }
+
+    private Task StopSort(MouseEventArgs arg)
+    {
+        this.cts?.Cancel();
+        return Task.CompletedTask;
+    }
+
+    protected async Task Sort(CancellationToken ct)
+    {
+        var progress = new List<SortProgress>();
+
+        await this.sortService.Sort(
+            this.values,
+            this.selectedSortAlgorithm.Type,
+            callback =>
+            {
+                progress.Add(callback);
+            });
+
+        foreach (var entry in progress)
+        {
+            await Task.Delay(this.visualDelayMs);
+            await JsRuntime.InvokeVoidAsync("updateBarChart", entry.CurrentValues, entry.CurrentIndex);
+
+            this.StateHasChanged();
+
+            if (ct.IsCancellationRequested)
+            {
+                this.values = entry.CurrentValues;
+                break;
+            }
+        }
+
+        await JsRuntime.InvokeVoidAsync("resetBarChartColors");
+    }
+
+    private async Task NumberOfEntriesChanged(ChangeEventArgs e)
+    {
+        this.selectedCollectionSize = this.entrySizeDescriptions.First(x => x.Label == e.Value.ToString());
+        await this.GenerateValues();
+    }
+
+    protected async Task SortAlgorithmChanged(ChangeEventArgs e)
+    {
+        this.selectedSortAlgorithm = this.sortTypeDescriptions.First(x => x.Type.ToString() == e.Value.ToString());
+
+        if (this.visualizerState == VisualizerState.Completed)
+        {
+            await this.GenerateValues();
+        }
+    }
+}
