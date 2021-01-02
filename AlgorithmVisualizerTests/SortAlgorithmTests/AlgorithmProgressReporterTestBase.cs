@@ -1,9 +1,11 @@
 ﻿
-namespace AlgorithmVisualizerLibrary.Models.Tests
+namespace AlgorithmVisualizerTests.SortAlgorithmTests
 {
     using System;
-    using NUnit.Framework;
+
     using AlgorithmVisualizerLibrary.Contracts;
+
+    using NUnit.Framework;
 
     [TestFixture()]
     public abstract class AlgorithmProgressReporterTestBase
@@ -16,15 +18,15 @@ namespace AlgorithmVisualizerLibrary.Models.Tests
         {
             var randNum = new Random();
 
-            randomTestArrayInit = new int[1000];
-            for (int i = 0; i < randomTestArrayInit.Length; i++)
+            this.randomTestArrayInit = new int[1000];
+            for (int i = 0; i < this.randomTestArrayInit.Length; i++)
             {
-                randomTestArrayInit[i] = randNum.Next(int.MinValue, int.MaxValue);
+                this.randomTestArrayInit[i] = randNum.Next(int.MinValue, int.MaxValue);
             }
 
             // Use default array sort as reference
-            randomTestArrayExpected = (int[])randomTestArrayInit.Clone();
-            Array.Sort(randomTestArrayExpected);
+            this.randomTestArrayExpected = (int[])this.randomTestArrayInit.Clone();
+            Array.Sort(this.randomTestArrayExpected);
         }
 
         [Test]
@@ -33,7 +35,7 @@ namespace AlgorithmVisualizerLibrary.Models.Tests
             var init = new int[] { 1, 2, 3, 4, 5, 6 };
             var sort = new int[] { 1, 2, 3, 4, 5, 6 };
 
-            sortVisualizer.Sort(sort);
+            this.sortVisualizer.Sort(sort);
 
             Assert.AreEqual(init, sort, "Arrays are not equal");
         }
@@ -45,7 +47,7 @@ namespace AlgorithmVisualizerLibrary.Models.Tests
             var expected = new int[] { 1, 2, 2, 4, 5, 6 };
             var sort = (int[])init.Clone();
 
-            sortVisualizer.Sort(sort);
+            this.sortVisualizer.Sort(sort);
 
             Assert.AreEqual(expected, sort, "Arrays are not equal");
         }
@@ -57,7 +59,7 @@ namespace AlgorithmVisualizerLibrary.Models.Tests
             var expected = new int[] { 1, 2, 3, 4, 5, 6 };
             var sort = (int[])init.Clone();
 
-            sortVisualizer.Sort(sort);
+            this.sortVisualizer.Sort(sort);
 
             Assert.AreEqual(expected, sort, "Arrays are not equal");
         }
@@ -65,14 +67,14 @@ namespace AlgorithmVisualizerLibrary.Models.Tests
         [Test]
         public void SortTestCaseRandom1000()
         {
-            var init = randomTestArrayInit;
-            var expected = randomTestArrayExpected;
+            var init = this.randomTestArrayInit;
+            var expected = this.randomTestArrayExpected;
             var sort = init;
 
             TestContext.WriteLine($"Random input: [{string.Join(", ", init)}]");
             TestContext.WriteLine($"Expected result: [{string.Join(", ", expected)}]");
 
-            sortVisualizer.Sort(sort);
+            this.sortVisualizer.Sort(sort);
 
             Assert.AreEqual(expected, sort, "Arrays are not equal");
 

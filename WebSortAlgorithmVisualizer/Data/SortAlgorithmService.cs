@@ -1,11 +1,12 @@
 ﻿
-namespace WebAlgorithmVisualizer.Data
+namespace WebSortAlgorithmVisualizer.Data
 {
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+
     using AlgorithmVisualizerLibrary.Contracts;
-    using AlgorithmVisualizerLibrary.Models;
+    using AlgorithmVisualizerLibrary.SortAlgorithms;
 
     public class SortAlgorithmService
     {

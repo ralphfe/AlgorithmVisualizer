@@ -1,4 +1,4 @@
-﻿namespace WebAlgorithmVisualizer.Data
+﻿namespace WebSortAlgorithmVisualizer.Data
 {
     public struct SortAlgorithmDescription
     {

@@ -1,6 +1,6 @@
-﻿@using WebAlgorithmVisualizer.Data
-@using System.Threading
-@using AlgorithmVisualizerLibrary.Models
+﻿@using System.Threading
+@using AlgorithmVisualizerLibrary.SortAlgorithms
+@using WebSortAlgorithmVisualizer.Data
 @inject IJSRuntime JsRuntime
 
 <div class="container">
@@ -158,13 +158,13 @@
         foreach (var entry in progress)
         {
             await Task.Delay(this.visualDelayMs);
-            await JsRuntime.InvokeVoidAsync("updateBarChart", entry.CurrentValues, entry.CurrentIndex);
+            await JsRuntime.InvokeVoidAsync("updateBarChart", entry.Values, entry.HighlightIndex);
 
             this.StateHasChanged();
 
             if (ct.IsCancellationRequested)
             {
-                this.sortValues = entry.CurrentValues;
+                this.sortValues = entry.Values;
                 break;
             }
         }

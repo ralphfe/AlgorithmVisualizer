@@ -1,14 +1,10 @@
 ﻿
 
-namespace AlgorithmVisualizerLibrary.Models.Tests
+namespace AlgorithmVisualizerTests.SortAlgorithmTests
 {
+    using AlgorithmVisualizerLibrary.SortAlgorithms;
+
     using NUnit.Framework;
-    using AlgorithmVisualizerLibrary.Models;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     [TestFixture()]
     public class QuickSortVisualizerTests : AlgorithmProgressReporterTestBase
