@@ -77,10 +77,10 @@
         new SortAlgorithmDescription(SortAlgorithmType.Quick, "Quick Sort" ),
     };
 
-    private int[] values;
+    private int visualDelayMs = 20;
+    private int[] sortValues;
     private CollectionSizeDescription selectedCollectionSize;
     private SortAlgorithmDescription selectedSortAlgorithm;
-    private int visualDelayMs = 20;
     private VisualizerState visualizerState = VisualizerState.Idle;
     private CancellationTokenSource cts;
     private SortAlgorithmService sortService;
@@ -93,8 +93,6 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await base.OnAfterRenderAsync(firstRender);
-
         if (firstRender)
         {
             await base.OnInitializedAsync();
@@ -103,17 +101,19 @@
             this.selectedSortAlgorithm = sortTypeDescriptions[2];
             this.selectedCollectionSize = entrySizeDescriptions[1];
 
-            this.values = this.GenerateRandomValues();
-            await JsRuntime.InvokeVoidAsync("generateBarChart", this.values);
+            this.sortValues = this.GenerateRandomValues();
+            await JsRuntime.InvokeVoidAsync("generateBarChart", this.sortValues);
         }
+
+        await base.OnAfterRenderAsync(firstRender);
     }
 
-    protected async Task GenerateChartValues()
+    private async Task GenerateChartValues()
     {
         this.visualizerState = VisualizerState.Idle;
 
-        this.values = this.GenerateRandomValues();
-        await JsRuntime.InvokeVoidAsync("updateBarChartSeries", this.values);
+        this.sortValues = this.GenerateRandomValues();
+        await JsRuntime.InvokeVoidAsync("updateBarChartSeries", this.sortValues);
         this.StateHasChanged();
     }
 
@@ -130,14 +130,13 @@
         return randomValues;
     }
 
-    protected async Task StartSort(MouseEventArgs e)
+    private async Task StartSort(MouseEventArgs e)
     {
         this.visualizerState = VisualizerState.Sorting;
 
         using (this.cts = new CancellationTokenSource())
         {
             await this.Sort(this.cts.Token);
-
             this.visualizerState = this.cts.Token.IsCancellationRequested ? VisualizerState.Cancelled : VisualizerState.Completed;
         }
 
@@ -150,17 +149,11 @@
         return Task.CompletedTask;
     }
 
-    protected async Task Sort(CancellationToken ct)
+    private async Task Sort(CancellationToken ct)
     {
         var progress = new List<SortProgress>();
 
-        await this.sortService.Sort(
-        this.values,
-        this.selectedSortAlgorithm.Type,
-        callback =>
-        {
-            progress.Add(callback);
-        });
+        await this.sortService.Sort(this.sortValues, this.selectedSortAlgorithm.Type, callback => progress.Add(callback));
 
         foreach (var entry in progress)
         {
@@ -171,7 +164,7 @@
 
             if (ct.IsCancellationRequested)
             {
-                this.values = entry.CurrentValues;
+                this.sortValues = entry.CurrentValues;
                 break;
             }
         }
@@ -185,7 +178,7 @@
         await this.GenerateChartValues();
     }
 
-    protected async Task SortAlgorithmChanged(ChangeEventArgs e)
+    private async Task SortAlgorithmChanged(ChangeEventArgs e)
     {
         this.selectedSortAlgorithm = this.sortTypeDescriptions.First(x => x.Type.ToString() == e.Value.ToString());
 
