@@ -4,9 +4,8 @@ namespace WebAlgorithmVisualizer.Data
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using AlgorithmVisualizerLibrary.Contracts;
     using AlgorithmVisualizerLibrary.Models;
-    using AlgorithmVisualzierLibrary.Contracts;
-    using AlgorithmVisualzierLibrary.Models;
 
     public class SortAlgorithmService
     {

@@ -4,8 +4,7 @@
 namespace AlgorithmVisualizerLibrary.Models
 {
     using System;
-    using AlgorithmVisualzierLibrary.Contracts;
-    using AlgorithmVisualzierLibrary.Models;
+    using AlgorithmVisualizerLibrary.Contracts;
 
     public class MergeSortVisualizer : ISortAlgorithmVisualizer
     {

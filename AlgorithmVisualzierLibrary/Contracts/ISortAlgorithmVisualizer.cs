@@ -1,9 +1,9 @@
 ﻿
 
-namespace AlgorithmVisualzierLibrary.Contracts
+namespace AlgorithmVisualizerLibrary.Contracts
 {
     using System;
-    using AlgorithmVisualzierLibrary.Models;
+    using AlgorithmVisualizerLibrary.Models;
 
     public interface ISortAlgorithmVisualizer
     {

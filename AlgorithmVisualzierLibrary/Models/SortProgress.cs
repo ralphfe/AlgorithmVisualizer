@@ -1,4 +1,4 @@
-﻿namespace AlgorithmVisualzierLibrary.Models
+﻿namespace AlgorithmVisualizerLibrary.Models
 {
     readonly public struct SortProgress
     {

@@ -3,7 +3,7 @@ namespace AlgorithmVisualizerLibrary.Models.Tests
 {
     using System;
     using NUnit.Framework;
-    using AlgorithmVisualzierLibrary.Contracts;
+    using AlgorithmVisualizerLibrary.Contracts;
 
     [TestFixture()]
     public abstract class AlgorithmProgressReporterTestBase
