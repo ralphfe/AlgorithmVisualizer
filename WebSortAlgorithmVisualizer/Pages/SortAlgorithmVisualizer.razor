@@ -42,7 +42,7 @@
         <div class="d-flex flex-column p-3">
             <label>Controls</label>
             <div class="d-flex align-items-center">
-                <button disabled="@IsSorting" class="btn btn-outline-primary" style="width: 120px; margin-right: 5px" @onclick="GenerateValues"
+                <button disabled="@IsSorting" class="btn btn-outline-primary" style="width: 120px; margin-right: 5px" @onclick="GenerateChartValues"
                         title="Generate new set of values" data-toggle="tooltip">
                     Generate
                 </button>
@@ -103,24 +103,32 @@
             this.selectedSortAlgorithm = sortTypeDescriptions[2];
             this.selectedCollectionSize = entrySizeDescriptions[1];
 
+            this.values = this.GenerateRandomValues();
             var res = await JsRuntime.InvokeAsync<object>("generateBarChart", values);
-            await GenerateValues();
         }
     }
 
-    protected async Task GenerateValues()
+    protected async Task GenerateChartValues()
     {
         this.visualizerState = VisualizerState.Idle;
 
-        var randNum = new Random();
-        this.values = new int[this.selectedCollectionSize.Size];
-        for (int i = 0; i < values.Length; i++)
-        {
-            this.values[i] = randNum.Next(1, 5 * this.selectedCollectionSize.Size);
-        }
+        this.values = this.GenerateRandomValues();
 
         var res = await JsRuntime.InvokeAsync<object>("updateBarChartSeries", this.values);
         this.StateHasChanged();
+    }
+
+    private int[] GenerateRandomValues()
+    {
+        var randNum = new Random();
+        var values = new int[this.selectedCollectionSize.Size];
+
+        for (int i = 0; i < values.Length; i++)
+        {
+            values[i] = randNum.Next(1, 5 * this.selectedCollectionSize.Size);
+        }
+
+        return values;
     }
 
     protected async Task StartSort(MouseEventArgs e)
@@ -175,7 +183,7 @@
     private async Task NumberOfEntriesChanged(ChangeEventArgs e)
     {
         this.selectedCollectionSize = this.entrySizeDescriptions.First(x => x.Label == e.Value.ToString());
-        await this.GenerateValues();
+        await this.GenerateChartValues();
     }
 
     protected async Task SortAlgorithmChanged(ChangeEventArgs e)
@@ -184,7 +192,7 @@
 
         if (this.visualizerState == VisualizerState.Completed)
         {
-            await this.GenerateValues();
+            await this.GenerateChartValues();
         }
     }
 }
