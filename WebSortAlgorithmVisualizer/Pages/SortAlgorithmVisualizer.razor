@@ -61,14 +61,6 @@
 </div>
 
 @code {
-    private int[] values;
-    private CollectionSizeDescription selectedCollectionSize;
-    private SortAlgorithmDescription selectedSortAlgorithm;
-    private int visualDelayMs = 20;
-    private VisualizerState visualizerState = VisualizerState.Idle;
-    private CancellationTokenSource cts;
-    private SortAlgorithmService sortService;
-
     private readonly List<CollectionSizeDescription> entrySizeDescriptions = new ()
     {
         new CollectionSizeDescription(20, "Small", "20 entries"),
@@ -85,11 +77,19 @@
         new SortAlgorithmDescription(SortAlgorithmType.Quick, "Quick Sort" ),
     };
 
-    public bool IsSorting => this.visualizerState == VisualizerState.Sorting;
+    private int[] values;
+    private CollectionSizeDescription selectedCollectionSize;
+    private SortAlgorithmDescription selectedSortAlgorithm;
+    private int visualDelayMs = 20;
+    private VisualizerState visualizerState = VisualizerState.Idle;
+    private CancellationTokenSource cts;
+    private SortAlgorithmService sortService;
 
-    public bool IsCompleted => this.visualizerState == VisualizerState.Completed;
+    private bool IsSorting => this.visualizerState == VisualizerState.Sorting;
 
-    public bool IsCancellable => this.visualizerState != VisualizerState.Sorting;
+    private bool IsCompleted => this.visualizerState == VisualizerState.Completed;
+
+    private bool IsCancellable => this.visualizerState != VisualizerState.Sorting;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -104,7 +104,7 @@
             this.selectedCollectionSize = entrySizeDescriptions[1];
 
             this.values = this.GenerateRandomValues();
-            var res = await JsRuntime.InvokeAsync<object>("generateBarChart", values);
+            await JsRuntime.InvokeVoidAsync("generateBarChart", this.values);
         }
     }
 
@@ -113,22 +113,21 @@
         this.visualizerState = VisualizerState.Idle;
 
         this.values = this.GenerateRandomValues();
-
-        var res = await JsRuntime.InvokeAsync<object>("updateBarChartSeries", this.values);
+        await JsRuntime.InvokeVoidAsync("updateBarChartSeries", this.values);
         this.StateHasChanged();
     }
 
     private int[] GenerateRandomValues()
     {
         var randNum = new Random();
-        var values = new int[this.selectedCollectionSize.Size];
+        var randomValues = new int[this.selectedCollectionSize.Size];
 
-        for (int i = 0; i < values.Length; i++)
+        for (int i = 0; i < randomValues.Length; i++)
         {
-            values[i] = randNum.Next(1, 5 * this.selectedCollectionSize.Size);
+            randomValues[i] = randNum.Next(1, 5 * this.selectedCollectionSize.Size);
         }
 
-        return values;
+        return randomValues;
     }
 
     protected async Task StartSort(MouseEventArgs e)
@@ -156,12 +155,12 @@
         var progress = new List<SortProgress>();
 
         await this.sortService.Sort(
-            this.values,
-            this.selectedSortAlgorithm.Type,
-            callback =>
-            {
-                progress.Add(callback);
-            });
+        this.values,
+        this.selectedSortAlgorithm.Type,
+        callback =>
+        {
+            progress.Add(callback);
+        });
 
         foreach (var entry in progress)
         {
