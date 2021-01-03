@@ -13,6 +13,6 @@
     <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AlgorithmVisualzierLibrary\AlgorithmVisualizerLibrary.csproj" />
+    <ProjectReference Include="..\AlgorithmVisualizerLibrary\AlgorithmVisualizerLibrary.csproj" />
   </ItemGroup>
 </Project>

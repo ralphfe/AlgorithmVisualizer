@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AlgorithmVisualzierLibrary\AlgorithmVisualizerLibrary.csproj" />
+    <ProjectReference Include="..\AlgorithmVisualizerLibrary\AlgorithmVisualizerLibrary.csproj" />
   </ItemGroup>
 
 </Project>
