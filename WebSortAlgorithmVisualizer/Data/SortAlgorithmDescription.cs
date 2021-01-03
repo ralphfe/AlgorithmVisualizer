@@ -15,7 +15,7 @@ namespace WebSortAlgorithmVisualizer.Data
         /// Initializes a new instance of the <see cref="SortAlgorithmDescription"/> struct.
         /// </summary>
         /// <param name="type">The sort algorithm type.</param>
-        /// <param name="label">The label, e.g. "merge sort"</param>
+        /// <param name="label">The label, e.g. "merge sort".</param>
         public SortAlgorithmDescription(SortAlgorithmType type, string label)
         {
             this.Type = type;

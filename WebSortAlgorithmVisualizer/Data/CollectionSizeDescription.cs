@@ -15,8 +15,8 @@ namespace WebSortAlgorithmVisualizer.Data
         /// Initializes a new instance of the <see cref="CollectionSizeDescription"/> struct.
         /// </summary>
         /// <param name="size">The size of collection.</param>
-        /// <param name="label">The label, e.g. "large"</param>
-        /// <param name="description">The description, e.g. "50 entries"</param>
+        /// <param name="label">The label, e.g. "large".</param>
+        /// <param name="description">The description, e.g. "50 entries".</param>
         public CollectionSizeDescription(int size, string label, string description)
         {
             this.Size = size;

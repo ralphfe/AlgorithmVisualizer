@@ -29,6 +29,6 @@ namespace WebSortAlgorithmVisualizer.Data
         /// <summary>
         /// The quick sort algorithm.
         /// </summary>
-        Quick
+        Quick,
     }
 }
