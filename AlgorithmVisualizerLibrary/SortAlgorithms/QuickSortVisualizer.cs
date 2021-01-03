@@ -47,7 +47,7 @@ namespace AlgorithmVisualizerLibrary.SortAlgorithms
                     SortHelpers.Swap(values, i, j, progressCallback);
                 }
             }
-            
+
             SortHelpers.Swap(values, i + 1, end, progressCallback);
             return i + 1;
         }

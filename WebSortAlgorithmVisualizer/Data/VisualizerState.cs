@@ -29,6 +29,6 @@ namespace WebSortAlgorithmVisualizer.Data
         /// <summary>
         /// Sorting visualization completed successfully.
         /// </summary>
-        Completed
+        Completed,
     }
 }
