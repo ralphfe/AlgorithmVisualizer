@@ -71,14 +71,15 @@ namespace AlgorithmVisualizerTests.SortAlgorithmTests
             var expected = this.randomTestArrayExpected;
             var sort = init;
 
-            TestContext.WriteLine($"Random input: [{string.Join(", ", init)}]");
-            TestContext.WriteLine($"Expected result: [{string.Join(", ", expected)}]");
+            ////// Uncomment if needed
+            ////TestContext.WriteLine($"Random input: [{string.Join(", ", init)}]");
+            ////TestContext.WriteLine($"Expected result: [{string.Join(", ", expected)}]");
 
             this.sortVisualizer.Sort(sort);
 
             Assert.AreEqual(expected, sort, "Arrays are not equal");
 
-            TestContext.WriteLine($"Actual result: [{string.Join(", ", sort)}]");
+            ////TestContext.WriteLine($"Actual result: [{string.Join(", ", sort)}]");
         }
     }
 }
