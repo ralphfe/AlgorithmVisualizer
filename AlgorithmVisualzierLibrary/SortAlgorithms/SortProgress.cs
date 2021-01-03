@@ -9,10 +9,10 @@ namespace AlgorithmVisualizerLibrary.SortAlgorithms
     /// <summary>
     /// The sorting algorithm progress.
     /// </summary>
-    public readonly struct SortProgress
+    public struct SortProgress
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="SortProgress"/> struct.
+        /// Initializes a new instance of the <see cref="SortProgress"/> struct.
         /// </summary>
         /// <param name="highlightIndex">The index to highlight.</param>
         /// <param name="values">The values.</param>

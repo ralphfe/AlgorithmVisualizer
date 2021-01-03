@@ -7,7 +7,6 @@
 namespace AlgorithmVisualizerLibrary.Contracts
 {
     using System;
-
     using AlgorithmVisualizerLibrary.SortAlgorithms;
 
     /// <summary>
