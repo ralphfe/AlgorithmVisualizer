@@ -20,7 +20,7 @@ jobs:
         dotnet-version: 5.0.101
 
     # runs NUnit tests
-    - name: Publish .NET Core Project
+    - name: Run NUnit Tests
       run: dotnet test AlgorithmVisualizerTests/AlgorithmVisualizerTests.csproj
 
     # publishes Blazor project to the release-folder
