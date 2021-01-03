@@ -1,6 +1,6 @@
-﻿@using WebAlgorithmVisualizer.Data
-@using System.Threading
-@using AlgorithmVisualzierLibrary.Models
+﻿@using System.Threading
+@using AlgorithmVisualizerLibrary.SortAlgorithms
+@using WebSortAlgorithmVisualizer.Data
 @inject IJSRuntime JsRuntime
 
 <div class="container">
@@ -42,7 +42,7 @@
         <div class="d-flex flex-column p-3">
             <label>Controls</label>
             <div class="d-flex align-items-center">
-                <button disabled="@IsSorting" class="btn btn-outline-primary" style="width: 120px; margin-right: 5px" @onclick="GenerateValues"
+                <button disabled="@IsSorting" class="btn btn-outline-primary" style="width: 120px; margin-right: 5px" @onclick="GenerateChartValues"
                         title="Generate new set of values" data-toggle="tooltip">
                     Generate
                 </button>
@@ -61,14 +61,6 @@
 </div>
 
 @code {
-    private int[] values;
-    private CollectionSizeDescription selectedCollectionSize;
-    private SortAlgorithmDescription selectedSortAlgorithm;
-    private int visualDelayMs = 20;
-    private VisualizerState visualizerState = VisualizerState.Idle;
-    private CancellationTokenSource cts;
-    private SortAlgorithmService sortService;
-
     private readonly List<CollectionSizeDescription> entrySizeDescriptions = new ()
     {
         new CollectionSizeDescription(20, "Small", "20 entries"),
@@ -85,16 +77,22 @@
         new SortAlgorithmDescription(SortAlgorithmType.Quick, "Quick Sort" ),
     };
 
-    public bool IsSorting => this.visualizerState == VisualizerState.Sorting;
+    private int visualDelayMs = 20;
+    private int[] sortValues;
+    private CollectionSizeDescription selectedCollectionSize;
+    private SortAlgorithmDescription selectedSortAlgorithm;
+    private VisualizerState visualizerState = VisualizerState.Idle;
+    private CancellationTokenSource cts;
+    private SortAlgorithmService sortService;
 
-    public bool IsCompleted => this.visualizerState == VisualizerState.Completed;
+    private bool IsSorting => this.visualizerState == VisualizerState.Sorting;
 
-    public bool IsCancellable => this.visualizerState != VisualizerState.Sorting;
+    private bool IsCompleted => this.visualizerState == VisualizerState.Completed;
+
+    private bool IsCancellable => this.visualizerState != VisualizerState.Sorting;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await base.OnAfterRenderAsync(firstRender);
-
         if (firstRender)
         {
             await base.OnInitializedAsync();
@@ -103,34 +101,42 @@
             this.selectedSortAlgorithm = sortTypeDescriptions[2];
             this.selectedCollectionSize = entrySizeDescriptions[1];
 
-            var res = await JsRuntime.InvokeAsync<object>("generateBarChart", values);
-            await GenerateValues();
+            this.sortValues = this.GenerateRandomValues();
+            await JsRuntime.InvokeVoidAsync("generateBarChart", this.sortValues);
         }
+
+        await base.OnAfterRenderAsync(firstRender);
     }
 
-    protected async Task GenerateValues()
+    private async Task GenerateChartValues()
     {
         this.visualizerState = VisualizerState.Idle;
 
-        var randNum = new Random();
-        this.values = new int[this.selectedCollectionSize.Size];
-        for (int i = 0; i < values.Length; i++)
-        {
-            this.values[i] = randNum.Next(1, 5 * this.selectedCollectionSize.Size);
-        }
-
-        var res = await JsRuntime.InvokeAsync<object>("updateBarChartSeries", this.values);
+        this.sortValues = this.GenerateRandomValues();
+        await JsRuntime.InvokeVoidAsync("updateBarChartSeries", this.sortValues);
         this.StateHasChanged();
     }
 
-    protected async Task StartSort(MouseEventArgs e)
+    private int[] GenerateRandomValues()
+    {
+        var randNum = new Random();
+        var randomValues = new int[this.selectedCollectionSize.Size];
+
+        for (int i = 0; i < randomValues.Length; i++)
+        {
+            randomValues[i] = randNum.Next(1, 5 * this.selectedCollectionSize.Size);
+        }
+
+        return randomValues;
+    }
+
+    private async Task StartSort(MouseEventArgs e)
     {
         this.visualizerState = VisualizerState.Sorting;
 
         using (this.cts = new CancellationTokenSource())
         {
             await this.Sort(this.cts.Token);
-
             this.visualizerState = this.cts.Token.IsCancellationRequested ? VisualizerState.Cancelled : VisualizerState.Completed;
         }
 
@@ -143,28 +149,22 @@
         return Task.CompletedTask;
     }
 
-    protected async Task Sort(CancellationToken ct)
+    private async Task Sort(CancellationToken ct)
     {
         var progress = new List<SortProgress>();
 
-        await this.sortService.Sort(
-            this.values,
-            this.selectedSortAlgorithm.Type,
-            callback =>
-            {
-                progress.Add(callback);
-            });
+        await this.sortService.Sort(this.sortValues, this.selectedSortAlgorithm.Type, callback => progress.Add(callback));
 
         foreach (var entry in progress)
         {
             await Task.Delay(this.visualDelayMs);
-            await JsRuntime.InvokeVoidAsync("updateBarChart", entry.CurrentValues, entry.CurrentIndex);
+            await JsRuntime.InvokeVoidAsync("updateBarChart", entry.Values, entry.HighlightIndex);
 
             this.StateHasChanged();
 
             if (ct.IsCancellationRequested)
             {
-                this.values = entry.CurrentValues;
+                this.sortValues = entry.Values;
                 break;
             }
         }
@@ -175,16 +175,16 @@
     private async Task NumberOfEntriesChanged(ChangeEventArgs e)
     {
         this.selectedCollectionSize = this.entrySizeDescriptions.First(x => x.Label == e.Value.ToString());
-        await this.GenerateValues();
+        await this.GenerateChartValues();
     }
 
-    protected async Task SortAlgorithmChanged(ChangeEventArgs e)
+    private async Task SortAlgorithmChanged(ChangeEventArgs e)
     {
         this.selectedSortAlgorithm = this.sortTypeDescriptions.First(x => x.Type.ToString() == e.Value.ToString());
 
         if (this.visualizerState == VisualizerState.Completed)
         {
-            await this.GenerateValues();
+            await this.GenerateChartValues();
         }
     }
 }

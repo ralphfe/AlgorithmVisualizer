@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlgorithmVisualizerLibrary", "AlgorithmVisualzierLibrary\AlgorithmVisualizerLibrary.csproj", "{3E690A8E-D39B-440F-B1C6-6C567BC0B1F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlgorithmVisualizerLibrary", "AlgorithmVisualizerLibrary\AlgorithmVisualizerLibrary.csproj", "{3E690A8E-D39B-440F-B1C6-6C567BC0B1F1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlgorithmVisualizerTests", "AlgorithmVisualizerTests\AlgorithmVisualizerTests.csproj", "{A898D38F-081C-412A-B7D8-7819572B3FEB}"
 EndProject
