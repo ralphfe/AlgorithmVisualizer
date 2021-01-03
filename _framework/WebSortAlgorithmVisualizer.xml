@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebSortAlgorithmVisualizer</name>
+    </assembly>
+    <members>
+        <member name="T:WebSortAlgorithmVisualizer.Data.CollectionSizeDescription">
+            <summary>
+            Describes the selectable collection size.
+            </summary>
+        </member>
+        <member name="M:WebSortAlgorithmVisualizer.Data.CollectionSizeDescription.#ctor(System.Int32,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebSortAlgorithmVisualizer.Data.CollectionSizeDescription"/> struct.
+            </summary>
+            <param name="size">The size of collection.</param>
+            <param name="label">The label, e.g. "large".</param>
+            <param name="description">The description, e.g. "50 entries".</param>
+        </member>
+        <member name="P:WebSortAlgorithmVisualizer.Data.CollectionSizeDescription.Size">
+            <summary>
+            Gets the size of collection associated with the selection.
+            </summary>
+        </member>
+        <member name="P:WebSortAlgorithmVisualizer.Data.CollectionSizeDescription.Label">
+            <summary>
+            Gets the label, e.g. "large".
+            </summary>
+        </member>
+        <member name="P:WebSortAlgorithmVisualizer.Data.CollectionSizeDescription.Description">
+            <summary>
+            Gets the description, e.g. "50 entries".
+            </summary>
+        </member>
+        <member name="T:WebSortAlgorithmVisualizer.Data.SortAlgorithmDescription">
+            <summary>
+            Describes the selectable sort algorithm.
+            </summary>
+        </member>
+        <member name="M:WebSortAlgorithmVisualizer.Data.SortAlgorithmDescription.#ctor(WebSortAlgorithmVisualizer.Data.SortAlgorithmType,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebSortAlgorithmVisualizer.Data.SortAlgorithmDescription"/> struct.
+            </summary>
+            <param name="type">The sort algorithm type.</param>
+            <param name="label">The label, e.g. "merge sort".</param>
+        </member>
+        <member name="P:WebSortAlgorithmVisualizer.Data.SortAlgorithmDescription.Type">
+            <summary>
+            Gets the sort algorithm type associated with the selection.
+            </summary>
+        </member>
+        <member name="P:WebSortAlgorithmVisualizer.Data.SortAlgorithmDescription.Label">
+            <summary>
+            Gets the label, e.g. "merge sort.
+            </summary>
+        </member>
+        <member name="T:WebSortAlgorithmVisualizer.Data.SortAlgorithmService">
+            <summary>
+            A sort algorithm service containing available sorting algorithms that can be visualized.
+            </summary>
+        </member>
+        <member name="F:WebSortAlgorithmVisualizer.Data.SortAlgorithmService.sortAlgorithmMap">
+            <summary>
+            A dictionary containing all available sort algorithms.
+            </summary>
+        </member>
+        <member name="M:WebSortAlgorithmVisualizer.Data.SortAlgorithmService.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebSortAlgorithmVisualizer.Data.SortAlgorithmService"/> class.
+            </summary>
+        </member>
+        <member name="M:WebSortAlgorithmVisualizer.Data.SortAlgorithmService.Sort(System.Int32[],WebSortAlgorithmVisualizer.Data.SortAlgorithmType,System.Action{AlgorithmVisualizerLibrary.SortAlgorithms.SortProgress})">
+            <summary>
+            Sorts the input values using specified sort algorithm and reports progress.
+            </summary>
+            <param name="values">The input values to sort.</param>
+            <param name="type">The sort algorithm type.</param>
+            <param name="progress">The sort algorithm progress callback.</param>
+            <returns>A completed task.</returns>
+        </member>
+        <member name="T:WebSortAlgorithmVisualizer.Data.SortAlgorithmType">
+            <summary>
+            An enumeration describing available sort algorithm types.
+            </summary>
+        </member>
+        <member name="F:WebSortAlgorithmVisualizer.Data.SortAlgorithmType.Bubble">
+            <summary>
+            The bubble sort algorithm.
+            </summary>
+        </member>
+        <member name="F:WebSortAlgorithmVisualizer.Data.SortAlgorithmType.Heap">
+            <summary>
+            The heap sort algorithm.
+            </summary>
+        </member>
+        <member name="F:WebSortAlgorithmVisualizer.Data.SortAlgorithmType.Merge">
+            <summary>
+            The merge sort algorithm.
+            </summary>
+        </member>
+        <member name="F:WebSortAlgorithmVisualizer.Data.SortAlgorithmType.Quick">
+            <summary>
+            The quick sort algorithm.
+            </summary>
+        </member>
+        <member name="T:WebSortAlgorithmVisualizer.Data.VisualizerState">
+            <summary>
+            An enumeration describing algorithm visualizer state.
+            </summary>
+        </member>
+        <member name="F:WebSortAlgorithmVisualizer.Data.VisualizerState.Idle">
+            <summary>
+            Idle state.
+            </summary>
+        </member>
+        <member name="F:WebSortAlgorithmVisualizer.Data.VisualizerState.Sorting">
+            <summary>
+            Sorting visualization is in progress.
+            </summary>
+        </member>
+        <member name="F:WebSortAlgorithmVisualizer.Data.VisualizerState.Cancelled">
+            <summary>
+            Sorting visualization is cancelled.
+            </summary>
+        </member>
+        <member name="F:WebSortAlgorithmVisualizer.Data.VisualizerState.Completed">
+            <summary>
+            Sorting visualization completed successfully.
+            </summary>
+        </member>
+        <member name="T:WebSortAlgorithmVisualizer.Program">
+            <summary>
+            A class representing entry point of the program.
+            </summary>
+        </member>
+        <member name="M:WebSortAlgorithmVisualizer.Program.Main(System.String[])">
+            <summary>
+            The entry point of the program.
+            </summary>
+            <param name="args">The command line args.</param>
+            <returns>An awaitable task.</returns>
+        </member>
+    </members>
+</doc>

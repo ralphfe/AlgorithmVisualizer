@@ -1,0 +1,167 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AlgorithmVisualizerLibrary</name>
+    </assembly>
+    <members>
+        <member name="T:AlgorithmVisualizerLibrary.Contracts.ISortAlgorithmVisualizer">
+            <summary>
+            A contract defining sort algorithm visualizer.
+            </summary>
+        </member>
+        <member name="M:AlgorithmVisualizerLibrary.Contracts.ISortAlgorithmVisualizer.Sort(System.Int32[],System.Action{AlgorithmVisualizerLibrary.SortAlgorithms.SortProgress})">
+            <summary>
+            Sorts input values and optionally report the progress.
+            </summary>
+            <param name="values">The values to sort.</param>
+            <param name="progressCallback">The optional progress callback.</param>
+        </member>
+        <member name="T:AlgorithmVisualizerLibrary.Internal.SortHelpers">
+            <summary>
+            A static helper class containing methods used by sorting algorithm visualizers.
+            </summary>
+        </member>
+        <member name="M:AlgorithmVisualizerLibrary.Internal.SortHelpers.Swap(System.Int32[],System.Int32,System.Int32,System.Action{AlgorithmVisualizerLibrary.SortAlgorithms.SortProgress})">
+            <summary>
+            Swaps two elements at specified indexes in the values collection.
+            </summary>
+            <param name="values">The values.</param>
+            <param name="x">The first value index.</param>
+            <param name="y">The second value index.</param>
+            <param name="progressCallback">The progress callback.</param>
+        </member>
+        <member name="T:AlgorithmVisualizerLibrary.SortAlgorithms.BubbleSortVisualizer">
+            <summary>
+            A comparison-based sorting algorithm in which each pair of adjacent elements
+            is compared and the elements are swapped if they are not in order.
+            </summary>
+        </member>
+        <member name="M:AlgorithmVisualizerLibrary.SortAlgorithms.BubbleSortVisualizer.Sort(System.Int32[],System.Action{AlgorithmVisualizerLibrary.SortAlgorithms.SortProgress})">
+            <summary>
+            Bubble sorts input values and optionally report the progress.
+            </summary>
+            <param name="values">The values to sort.</param>
+            <param name="progressCallback">The optional progress callback.</param>
+        </member>
+        <member name="T:AlgorithmVisualizerLibrary.SortAlgorithms.HeapSortVisualizer">
+            <summary>
+            A sorting algorithm that makes use of the heap data structure.
+            The main steps are:
+            1. Build a max-heap i.e. when the root node is the largest.
+            2. Swap the root node with the element at the last index.
+            3. Remove the element and reduce the size of heap by 1.
+            4. Create a heap data structure from a binary tree so that we get the largest element at the root again.
+            5. Repeat the above steps until all the elements are properly sorted.
+            </summary>
+        </member>
+        <member name="M:AlgorithmVisualizerLibrary.SortAlgorithms.HeapSortVisualizer.Sort(System.Int32[],System.Action{AlgorithmVisualizerLibrary.SortAlgorithms.SortProgress})">
+            <summary>
+            Heap sorts input values and optionally report the progress.
+            </summary>
+            <param name="values">The values to sort.</param>
+            <param name="progressCallback">The optional progress callback.</param>
+        </member>
+        <member name="M:AlgorithmVisualizerLibrary.SortAlgorithms.HeapSortVisualizer.BuildHeap(System.Int32[],System.Action{AlgorithmVisualizerLibrary.SortAlgorithms.SortProgress})">
+            <summary>
+            Converts input values to max-heap.
+            </summary>
+            <param name="values">The values.</param>
+            <param name="progressCallback">The progress callback.</param>
+        </member>
+        <member name="M:AlgorithmVisualizerLibrary.SortAlgorithms.HeapSortVisualizer.Sink(System.Int32[],System.Int32,System.Int32,System.Action{AlgorithmVisualizerLibrary.SortAlgorithms.SortProgress})">
+            <summary>
+            Performs a down-heap or sink-down operation for a max-heap.
+            </summary>
+            <param name="values">The values.</param>
+            <param name="heapSize">The heap size.</param>
+            <param name="i">The index to start at when sinking down.</param>
+            <param name="progressCallback">The progress callback.</param>
+        </member>
+        <member name="T:AlgorithmVisualizerLibrary.SortAlgorithms.MergeSortVisualizer">
+            <summary>
+            A divide and Conquer algorithm that divides the input array into two halves,
+            calls itself for the two halves, and then merges the two sorted halves.
+            </summary>
+        </member>
+        <member name="M:AlgorithmVisualizerLibrary.SortAlgorithms.MergeSortVisualizer.Sort(System.Int32[],System.Action{AlgorithmVisualizerLibrary.SortAlgorithms.SortProgress})">
+            <summary>
+            Merge sorts input values and optionally report the progress.
+            </summary>
+            <param name="values">The values to sort.</param>
+            <param name="progressCallback">The optional progress callback.</param>
+        </member>
+        <member name="M:AlgorithmVisualizerLibrary.SortAlgorithms.MergeSortVisualizer.Merge(System.Int32[],System.Int32,System.Int32,System.Int32,System.Action{AlgorithmVisualizerLibrary.SortAlgorithms.SortProgress})">
+            <summary>
+            Merges two sorted halves.
+            </summary>
+            <param name="values">The values.</param>
+            <param name="left">The left half index, i.e. from values range [left..mid].</param>
+            <param name="mid">The mid point between two sorted halves.</param>
+            <param name="right">The right half index, i.e. from values range [mid+1..right].</param>
+            <param name="progressCallback">The progress callback.</param>
+        </member>
+        <member name="M:AlgorithmVisualizerLibrary.SortAlgorithms.MergeSortVisualizer.MergeSort(System.Int32[],System.Int32,System.Int32,System.Action{AlgorithmVisualizerLibrary.SortAlgorithms.SortProgress})">
+            <summary>
+            Recursively merge sorts the input values.
+            </summary>
+            <param name="values">The values.</param>
+            <param name="start">The start index.</param>
+            <param name="end">The end index.</param>
+            <param name="progressCallback">The progress callback.</param>
+        </member>
+        <member name="T:AlgorithmVisualizerLibrary.SortAlgorithms.QuickSortVisualizer">
+            <summary>
+            A divide and conquer algorithm that picks an element as pivot and partitions the given input around it.
+            </summary>
+        </member>
+        <member name="M:AlgorithmVisualizerLibrary.SortAlgorithms.QuickSortVisualizer.Sort(System.Int32[],System.Action{AlgorithmVisualizerLibrary.SortAlgorithms.SortProgress})">
+            <summary>
+            Quick sorts input values and optionally report the progress.
+            </summary>
+            <param name="values">The values to sort.</param>
+            <param name="progressCallback">The optional progress callback.</param>
+        </member>
+        <member name="M:AlgorithmVisualizerLibrary.SortAlgorithms.QuickSortVisualizer.Partition(System.Int32[],System.Int32,System.Int32,System.Action{AlgorithmVisualizerLibrary.SortAlgorithms.SortProgress})">
+            <summary>
+            Takes last element as pivot, places the pivot element at its correct position in sorted array,
+            and places all smaller (smaller than pivot) to left of pivot and all greater elements to right of pivot.
+            </summary>
+            <param name="values">The values.</param>
+            <param name="start">The start index.</param>
+            <param name="end">The end index.</param>
+            <param name="progressCallback">The progress callback.</param>
+            <returns>A partitioning index.</returns>
+        </member>
+        <member name="M:AlgorithmVisualizerLibrary.SortAlgorithms.QuickSortVisualizer.QuickSort(System.Int32[],System.Int32,System.Int32,System.Action{AlgorithmVisualizerLibrary.SortAlgorithms.SortProgress})">
+            <summary>
+            Recursively calls the quick sort.
+            </summary>
+            <param name="values">The values.</param>
+            <param name="start">The start index.</param>
+            <param name="end">The end index.</param>
+            <param name="progressCallback">The progress callback.</param>
+        </member>
+        <member name="T:AlgorithmVisualizerLibrary.SortAlgorithms.SortProgress">
+            <summary>
+            The sorting algorithm progress.
+            </summary>
+        </member>
+        <member name="M:AlgorithmVisualizerLibrary.SortAlgorithms.SortProgress.#ctor(System.Int32,System.Int32[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlgorithmVisualizerLibrary.SortAlgorithms.SortProgress"/> struct.
+            </summary>
+            <param name="highlightIndex">The index to highlight.</param>
+            <param name="values">The values.</param>
+        </member>
+        <member name="P:AlgorithmVisualizerLibrary.SortAlgorithms.SortProgress.HighlightIndex">
+            <summary>
+            Gets the index to highlight.
+            </summary>
+        </member>
+        <member name="P:AlgorithmVisualizerLibrary.SortAlgorithms.SortProgress.Values">
+            <summary>
+            Gets the current values.
+            </summary>
+        </member>
+    </members>
+</doc>
