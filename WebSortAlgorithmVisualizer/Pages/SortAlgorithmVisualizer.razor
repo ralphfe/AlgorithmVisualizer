@@ -11,7 +11,7 @@
         <div class="d-flex flex-column p-3">
             <label>Select sorting algorithm</label>
             <select disabled="@IsSorting" class="form-control" style="width: 180px"
-                    value="@selectedSortAlgorithm.Type" @onchange="SortAlgorithmChanged">
+                    value="@this.selectedSortAlgorithm.Type" @onchange="SortAlgorithmChanged">
                 @foreach (var value in this.sortTypeDescriptions)
                 {
                     <option value="@value.Type">@value.Label</option>
@@ -98,11 +98,12 @@
             await base.OnInitializedAsync();
 
             this.sortService = new SortAlgorithmService();
-            this.selectedSortAlgorithm = sortTypeDescriptions[2];
-            this.selectedCollectionSize = entrySizeDescriptions[1];
+            this.selectedSortAlgorithm = this.sortTypeDescriptions[2];
+            this.selectedCollectionSize = this.entrySizeDescriptions[1];
 
             this.sortValues = this.GenerateRandomValues();
             await JsRuntime.InvokeVoidAsync("generateBarChart", this.sortValues);
+            this.StateHasChanged();
         }
 
         await base.OnAfterRenderAsync(firstRender);
