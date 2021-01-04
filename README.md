@@ -12,4 +12,6 @@ Each implementation of `ISortAlgorithmVisualizer` has an optional `SortProgress`
 A Blazor WebAssembly (WASM) project.
 Demonstrates interop between C# and JavaScript by using sorting algorithms from `AlgorithmVisualizerLibrary` and charts from [ApexCharts](https://apexcharts.com/).
 
+![Sample Page](./images/sample-page.jpg)
+
 The sample page is hosted @ [GitHubPages](https://ralphfe.github.io/AlgorithmVisualizer/)
