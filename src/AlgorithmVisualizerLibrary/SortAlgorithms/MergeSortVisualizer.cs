@@ -38,6 +38,8 @@ namespace AlgorithmVisualizerLibrary.SortAlgorithms
             var temp = new int[values.Length];
             int i;
             var leftEnd = mid - 1;
+            var initLeft = left;
+            var initRight = right;
             var tmpPos = left;
             var lengthOfInput = right - left + 1;
 
@@ -70,7 +72,7 @@ namespace AlgorithmVisualizerLibrary.SortAlgorithms
             for (i = 0; i < lengthOfInput; i++)
             {
                 values[right] = temp[right];
-                progressCallback?.Invoke(new SortProgress(new[] { right }, values));
+                progressCallback?.Invoke(new SortProgress(new[] { initLeft, leftEnd, initRight, right }, values));
 
                 right--;
             }

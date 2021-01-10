@@ -45,12 +45,12 @@ namespace AlgorithmVisualizerLibrary.SortAlgorithms
                 {
                     i++;
                     SortHelpers.Swap(values, i, j);
-                    progressCallback?.Invoke(new SortProgress(new[] { i, j }, values));
+                    progressCallback?.Invoke(new SortProgress(new[] { i, j, start, end }, values));
                 }
             }
 
             SortHelpers.Swap(values, i + 1, end);
-            progressCallback?.Invoke(new SortProgress(new[] { i + 1, end }, values));
+            progressCallback?.Invoke(new SortProgress(new[] { i + 1, start, end }, values));
             return i + 1;
         }
 
