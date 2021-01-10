@@ -35,7 +35,9 @@ namespace AlgorithmVisualizerLibrary.SortAlgorithms
 
             for (var i = heapSize - 1; i >= 1; i--)
             {
-                SortHelpers.Swap(values, i, 0, progressCallback);
+                SortHelpers.Swap(values, i, 0);
+                progressCallback?.Invoke(new SortProgress(new[] { i }, values));
+
                 heapSize--;
                 this.Sink(values, heapSize, 0, progressCallback);
             }
@@ -82,7 +84,9 @@ namespace AlgorithmVisualizerLibrary.SortAlgorithms
 
             if (largest != i)
             {
-                SortHelpers.Swap(values, i, largest, progressCallback);
+                SortHelpers.Swap(values, i, largest);
+                progressCallback?.Invoke(new SortProgress(new[] { i, largest }, values));
+
                 this.Sink(values, heapSize, largest, progressCallback);
             }
         }
