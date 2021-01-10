@@ -21,14 +21,13 @@
             A static helper class containing methods used by sorting algorithm visualizers.
             </summary>
         </member>
-        <member name="M:AlgorithmVisualizerLibrary.Internal.SortHelpers.Swap(System.Int32[],System.Int32,System.Int32,System.Action{AlgorithmVisualizerLibrary.SortAlgorithms.SortProgress})">
+        <member name="M:AlgorithmVisualizerLibrary.Internal.SortHelpers.Swap(System.Int32[],System.Int32,System.Int32)">
             <summary>
             Swaps two elements at specified indexes in the values collection.
             </summary>
             <param name="values">The values.</param>
             <param name="x">The first value index.</param>
             <param name="y">The second value index.</param>
-            <param name="progressCallback">The progress callback.</param>
         </member>
         <member name="T:AlgorithmVisualizerLibrary.SortAlgorithms.BubbleSortVisualizer">
             <summary>
@@ -146,14 +145,14 @@
             The sorting algorithm progress.
             </summary>
         </member>
-        <member name="M:AlgorithmVisualizerLibrary.SortAlgorithms.SortProgress.#ctor(System.Int32,System.Int32[])">
+        <member name="M:AlgorithmVisualizerLibrary.SortAlgorithms.SortProgress.#ctor(System.Int32[],System.Int32[])">
             <summary>
             Initializes a new instance of the <see cref="T:AlgorithmVisualizerLibrary.SortAlgorithms.SortProgress"/> struct.
             </summary>
-            <param name="highlightIndex">The index to highlight.</param>
+            <param name="highlight">The index to highlight.</param>
             <param name="values">The values.</param>
         </member>
-        <member name="P:AlgorithmVisualizerLibrary.SortAlgorithms.SortProgress.HighlightIndex">
+        <member name="P:AlgorithmVisualizerLibrary.SortAlgorithms.SortProgress.Highlight">
             <summary>
             Gets the index to highlight.
             </summary>
