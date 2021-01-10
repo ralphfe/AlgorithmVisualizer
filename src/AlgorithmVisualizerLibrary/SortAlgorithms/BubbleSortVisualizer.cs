@@ -30,7 +30,8 @@ namespace AlgorithmVisualizerLibrary.SortAlgorithms
                 {
                     if (values[sort] > values[sort + 1])
                     {
-                        SortHelpers.Swap(values, sort + 1, sort, progressCallback);
+                        SortHelpers.Swap(values, sort + 1, sort);
+                        progressCallback?.Invoke(new SortProgress(new[] { sort + 1 }, values));
                     }
                 }
             }

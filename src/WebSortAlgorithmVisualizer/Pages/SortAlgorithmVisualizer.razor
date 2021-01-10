@@ -159,7 +159,7 @@
         foreach (var entry in progress)
         {
             await Task.Delay(this.visualDelayMs);
-            await JsRuntime.InvokeVoidAsync("updateBarChart", entry.Values, entry.HighlightIndex);
+            await JsRuntime.InvokeVoidAsync("updateBarChart", entry.Values, entry.Highlight);
 
             this.StateHasChanged();
 

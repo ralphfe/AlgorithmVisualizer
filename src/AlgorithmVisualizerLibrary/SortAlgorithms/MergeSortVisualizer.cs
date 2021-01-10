@@ -70,7 +70,7 @@ namespace AlgorithmVisualizerLibrary.SortAlgorithms
             for (i = 0; i < lengthOfInput; i++)
             {
                 values[right] = temp[right];
-                progressCallback?.Invoke(new SortProgress(right, values));
+                progressCallback?.Invoke(new SortProgress(new[] { right }, values));
 
                 right--;
             }

@@ -110,14 +110,14 @@ function updateBarChartSeries(values) {
     }]);
 }
 
-function updateBarChart(values, index) {
+function updateBarChart(values, highlightIndexes) {
     chart.updateOptions({
         series: [{
             data: values
         }],
         fill: {
             colors: [function ({ value, seriesIndex, w }) {
-                if (seriesIndex === index) {
+                if (highlightIndexes.includes(seriesIndex)) {
                     return '#eb3434';
                 } else {
                     return '#164666';

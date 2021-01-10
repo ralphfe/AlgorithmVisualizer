@@ -44,11 +44,13 @@ namespace AlgorithmVisualizerLibrary.SortAlgorithms
                 if (values[j] <= pivot)
                 {
                     i++;
-                    SortHelpers.Swap(values, i, j, progressCallback);
+                    SortHelpers.Swap(values, i, j);
+                    progressCallback?.Invoke(new SortProgress(new[] { i, j }, values));
                 }
             }
 
-            SortHelpers.Swap(values, i + 1, end, progressCallback);
+            SortHelpers.Swap(values, i + 1, end);
+            progressCallback?.Invoke(new SortProgress(new[] { i + 1, end }, values));
             return i + 1;
         }
 
