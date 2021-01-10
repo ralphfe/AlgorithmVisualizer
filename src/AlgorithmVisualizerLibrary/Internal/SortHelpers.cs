@@ -26,10 +26,9 @@ namespace AlgorithmVisualizerLibrary.Internal
         {
             var tmpVal = values[x];
             values[x] = values[y];
-            progressCallback?.Invoke(new SortProgress(x, values));
-
             values[y] = tmpVal;
-            progressCallback?.Invoke(new SortProgress(y, values));
+
+            progressCallback?.Invoke(new SortProgress(new[] { y, x }, values));
         }
     }
 }

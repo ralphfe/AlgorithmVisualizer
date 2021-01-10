@@ -14,18 +14,18 @@ namespace AlgorithmVisualizerLibrary.SortAlgorithms
         /// <summary>
         /// Initializes a new instance of the <see cref="SortProgress"/> struct.
         /// </summary>
-        /// <param name="highlightIndex">The index to highlight.</param>
+        /// <param name="highlight">The index to highlight.</param>
         /// <param name="values">The values.</param>
-        public SortProgress(int highlightIndex, int[] values)
+        public SortProgress(int[] highlight, int[] values)
         {
-            this.HighlightIndex = highlightIndex;
+            this.Highlight = highlight;
             this.Values = (int[])values.Clone();
         }
 
         /// <summary>
         /// Gets the index to highlight.
         /// </summary>
-        public int HighlightIndex { get; }
+        public int[] Highlight { get; }
 
         /// <summary>
         /// Gets the current values.
